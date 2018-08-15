@@ -246,7 +246,6 @@ int main()
     int num;
     cin >> num;
     vector<int> vect;
-    // vect.push_back(2);
     // vect.push_back(3);
     // vect.push_back(1);
 
