@@ -183,11 +183,60 @@ class Solution
        }
    }
 
-   void swap(vector<int> &vec2, int i, int j)
-   {
-       int tmp = vec2[i];
-       vec2[i] = vec2[j];
-       vec2[j] = tmp;
+   /*
+   *    Quick Sort
+   */
+  vector<int> QuickSort(vector<int> vec1)
+  {
+      
+      if (vec1.size() < 2) {
+          return vec1;
+      }
+
+      quickSort(vec1, 0, vec1.size() - 1);
+
+      return vec1;
+  }
+
+  void quickSort(vector<int>& vec1, int l, int r)
+  {
+      if (l < r)
+      {
+        vector<int> tmp_vec =  patition(vec1, l, r);
+        quickSort(vec1, l, tmp_vec[0] - 1);
+        quickSort(vec1, tmp_vec[1] + 1, r);
+      }
+  }
+
+  vector<int> patition(vector<int>& vec1, int l, int r)
+  {
+      int less = l - 1;
+      int more = r;
+      while (l < more)
+      {
+          
+          if (vec1[l] < vec1[r]) {
+              swap(vec1, ++less, l++);
+          }
+          else if(vec1[l] > vec1[r]) {
+              swap(vec1, l, --more);
+          }
+          else {
+              l++;
+          }
+      }
+      swap(vec1, more, r);
+      vector<int> vec;
+      vec.push_back(less + 1);
+      vec.push_back(more);
+      return vec;
+  }
+
+  void swap(vector<int> &vec2, int i, int j)
+  {
+      int tmp = vec2[i];
+      vec2[i] = vec2[j];
+      vec2[j] = tmp;
     }
 };
 
@@ -210,7 +259,7 @@ int main()
 
     Solution s;
     vector<int> res;
-    res = s.MergeSort(vect);
+    res = s.QuickSort(vect);
     for (int i = 0; i < res.size(); i++)
     {
         cout << res[i] << endl;
