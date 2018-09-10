@@ -7,6 +7,7 @@
  */
 #include <iostream>
 #include <vector> 
+#include <math.h>
 
 using namespace std;
 
@@ -43,7 +44,67 @@ public:
 
     vector<int> RadixSort(vector<int> vec1)
     {
-        
+        if (vec1.size() < 2)
+        {
+            return vec1;
+        }
+        return radixSort(vec1, 0, vec1.size() - 1, maxbits(vec1));
+    }
+
+    int maxbits(vector<int> vec1)
+    {
+        int nmax = 0x80000000;
+        for (int i = 0; i < vec1.size(); i++)
+        {
+            nmax = max(nmax, vec1[i]);
+        }
+        int res = 0;
+        while (nmax != 0)
+        {
+            res++;
+            nmax /= 10;
+        }
+        return res;
+    }
+
+    vector<int> radixSort(vector<int> vec1, int begin, int end, int digit)
+    {
+        int radix = 10;
+        int i = 0, j = 0;
+        vector<int> count(radix);
+        vector<int> bucket(end - begin + 1);
+        for (int d = 1; d <= digit; d++)
+        {
+            for (i = 0; i < radix; i++)
+            {
+                count[i] = 0;
+            }
+            for (i = begin; i <= end; i++)
+            {
+                j = getDigit(vec1[i], d);
+                count[j]++;
+            }
+            for (i = 1; i < radix; i++)
+            {
+                count[i] = count[i] + count[i - 1];
+            }
+            for (i = end; i >= begin; i--)
+            {
+                j = getDigit(vec1[i], d);
+                bucket[count[j] - 1] = vec1[i];
+                count[j]--;
+            }
+            for (i = begin, j = 0; i <= end; i++, j++)
+            {
+                vec1[i] = bucket[j];
+            }
+        }
+        return vec1;
+    }
+
+    int getDigit(int x, int d)
+    {
+        return ((x / ((int)pow(10, float(d - 1)))) % 10);
     }
 
     void swap(vector<int>& vec, int i, int j)
@@ -71,7 +132,7 @@ int main()
 
     Solution s;
     vector<int> res;
-    res = s.BucketSort(vect);
+    res = s.RadixSort(vect);
     for (int i = 0; i < res.size(); i++)
     {
         cout << res[i] << endl;
