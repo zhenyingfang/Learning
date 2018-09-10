@@ -2,7 +2,7 @@
  * @Author: fzy
  * @Date: 2018-08-16 10:12:22
  * @LastEditors: zhenying
- * @LastEditTime: 2018-08-16 10:14:43
+ * @LastEditTime: 2018-09-10 19:38:49
  * @Description: 
  */
 #include <iostream>
@@ -69,7 +69,7 @@ public:
 
     vector<int> radixSort(vector<int> vec1, int begin, int end, int digit)
     {
-        int radix = 10;
+        const int radix = 10;
         int i = 0, j = 0;
         vector<int> count(radix);
         vector<int> bucket(end - begin + 1);
